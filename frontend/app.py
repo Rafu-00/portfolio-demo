@@ -10,7 +10,7 @@ st.set_page_config(
     layout="centered",
 )
 
-st.title("🎓 Portfolio Q&A Engine")
+st.title("🎓 Angelo's Portfolio Q&A Engine")
 st.caption("Ask me anything about my research and professional experience.")
 
 hide_st_style = """
