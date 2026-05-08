@@ -2,11 +2,6 @@ import streamlit as st
 import requests
 import os
 
-# ---------------------------------------------------------------------------
-# Config
-# ---------------------------------------------------------------------------
-# Locally defaults to localhost. On Streamlit Cloud, set BACKEND_URL in
-# Settings → Secrets as:  BACKEND_URL = "https://your-render-url.onrender.com"
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 st.set_page_config(
@@ -18,9 +13,15 @@ st.set_page_config(
 st.title("🎓 Portfolio Q&A Engine")
 st.caption("Ask me anything about my research and professional experience.")
 
-# ---------------------------------------------------------------------------
-# Sidebar — optional status indicator
-# ---------------------------------------------------------------------------
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 with st.sidebar:
     st.header("About")
     st.write(
@@ -38,9 +39,6 @@ with st.sidebar:
         except Exception as e:
             st.error(f"Backend unreachable: {e}")
 
-# ---------------------------------------------------------------------------
-# Chat state — persists across Streamlit reruns within the same session
-# ---------------------------------------------------------------------------
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -49,9 +47,6 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
-# ---------------------------------------------------------------------------
-# Chat input
-# ---------------------------------------------------------------------------
 if question := st.chat_input("Ask something about my work..."):
 
     # Show the user's question immediately

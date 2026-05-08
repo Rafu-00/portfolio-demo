@@ -7,8 +7,6 @@ import fitz  # PyMuPDF
 
 app = FastAPI(title="Portfolio Q&A API")
 
-# Allow Streamlit frontend (and any origin) to call this API.
-# You can lock this down to your Streamlit URL in production.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -16,13 +14,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configure Gemini once at startup using the env var you set in Render.
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-# ---------------------------------------------------------------------------
-# Document loading
-# ---------------------------------------------------------------------------
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
 document_context: str = ""
 
@@ -62,12 +56,7 @@ def load_documents() -> None:
     print(f"[INFO] Total context size: {len(document_context)} characters")
 
 
-# Run once when Render (or uvicorn) starts the process.
 load_documents()
-
-# ---------------------------------------------------------------------------
-# Request / response models
-# ---------------------------------------------------------------------------
 
 class Question(BaseModel):
     question: str
@@ -76,10 +65,6 @@ class Question(BaseModel):
 class Answer(BaseModel):
     answer: str
 
-
-# ---------------------------------------------------------------------------
-# Endpoints
-# ---------------------------------------------------------------------------
 
 @app.get("/health")
 def health() -> dict:
