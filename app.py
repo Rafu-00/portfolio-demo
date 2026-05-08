@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # This will be your deployed Render URL later
-BACKEND_URL = "http://localhost:8000" 
+BACKEND_URL = "https://portfolio-demo-ji18.onrender.com" 
 
 st.set_page_config(page_title="Chat with My Portfolio")
 st.title("👨‍💻 Portfolio Q&A Assistant")
